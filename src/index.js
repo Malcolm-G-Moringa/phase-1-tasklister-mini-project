@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
 });
 
+// Function to handle a submit event in the todo form
 function handleToDo(e){
   // Preventpage refresh
   e.preventDefault();
@@ -52,12 +53,13 @@ function handleToDo(e){
   // Add a sort items button
   createSortButton();
 
+
   // Reset form
   e.target.reset();
 }
 
 
-
+// function to create a dropdown list to choose priority level of a list
 function createPriorityDropdown(){
   // Add a priority dropdown to change color
   const priorityValue = document.createElement('select');
@@ -90,8 +92,12 @@ function createPriorityDropdown(){
 
 }
 
+// Function to create a sort list button
 function createSortButton(){
   const list = document.querySelector('#tasks');
+  if(list.parentNode.querySelector('h2').children.length>=1){
+    return;
+  }
   if(list.children.length > 1){
     const sortBtn = document.createElement('button');
     sortBtn.textContent = "Sort list";
@@ -101,5 +107,35 @@ function createSortButton(){
   else{return}
 }
 
+// Function to handle a click event of the {sort list button} to sort list items based on their priority
+function sortList(e){
+  let list, i, switching, b, shouldSwitch;
+  list = document.getElementById("tasks");
+  switching = true;
+
+  while(switching){
+    switching = false;
+    b = list.getElementsByTagName("LI");
+
+    for(i = 0; i < (b.length - 1); i++){
+      shouldSwitch = false;
+
+      if(b[i].style.color != "red" && b[i+1].style.color == "red"){
+        shouldSwitch = true;
+        break;
+      }
+
+      if(b[i].style.color == "green" && b[i+1].style.color == "orange"){
+        shouldSwitch = true;
+        break;
+      }
+    }
+
+    if(shouldSwitch){
+      b[i].parentNode.insertBefore(b[i + 1], b[i]);
+      switching = true;
+    }
+  }
+}
 
 console.log(document.querySelector('#tasks'))
