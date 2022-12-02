@@ -42,7 +42,10 @@ function handleToDo(e){
   // Add a delete button with event listener and append to list element
   const btn = document.createElement('button');
   btn.textContent = 'delete';
-  btn.addEventListener('click',(e)=>e.target.parentNode.remove());
+  btn.addEventListener('click',(e)=>{
+    e.target.parentNode.remove();
+    deleteSortButton();
+  });
 
   // Append delete button to list element
   li.append(" ",btn);
@@ -103,6 +106,16 @@ function createSortButton(){
     sortBtn.textContent = "Sort list";
     list.parentNode.querySelector('h2').append(" ",sortBtn);
     sortBtn.addEventListener('click', sortList)
+  }
+  else{return}
+}
+
+// Function to delete the sort button
+function deleteSortButton(){
+  const list = document.querySelector('#tasks');
+  if(list.children.length < 2 && list.children.length > 0){
+    const sortBtn = list.parentNode.querySelector('h2').querySelector('button');
+    sortBtn.remove();
   }
   else{return}
 }
