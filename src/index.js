@@ -1,17 +1,22 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", (e) => {
   const form = document.querySelector('#create-task-form');
+
+  //Adding the priority dropdown 
   createPriorityDropdown();
-  form.addEventListener('submit',(e)=>{
-    e.preventDefault();
-    handleToDo(e);
-    form.reset();
-  })
+
+  // Add event listener to add todo list item
+  form.addEventListener('submit',handleToDo)
+
 });
 
 function handleToDo(e){
+  // Preventpage refresh
+  e.preventDefault();
 
+  // create variables for the value input and the dropdown menu
   const todo = e.target['new-task-description'].value;
   const dropdown = e.target.querySelector('select');
+
   // Check that todo item is not an empty string
   if(todo == ''){
     console.error('Please input an actual value')
@@ -43,23 +48,13 @@ function handleToDo(e){
 
   // Append list element to todo list
   document.querySelector('#tasks').append(li);
+
+  // Add a sort items button
+  createSortButton();
+
+  // Reset form
+  e.target.reset();
 }
-
-
-
-// Function for changing the color of a todo item basedon priority level
-// function priorityShow(e){
-//   const priority = e.target.selectedIndex;
-//   if(priority == '1'){
-//     e.target.parentNode.style.color = "Red"
-//   }
-//   else if(priority == '2'){
-//     e.target.parentNode.style.color = "Yellow"
-//   }
-//   else if(priority == '3'){
-//     e.target.parentNode.style.color = "Green"
-//   }
-// }
 
 
 
@@ -94,3 +89,17 @@ function createPriorityDropdown(){
   // priorityValue.addEventListener('change',priorityShow)
 
 }
+
+function createSortButton(){
+  const list = document.querySelector('#tasks');
+  if(list.children.length > 1){
+    const sortBtn = document.createElement('button');
+    sortBtn.textContent = "Sort list";
+    list.parentNode.querySelector('h2').append(" ",sortBtn);
+    sortBtn.addEventListener('click', sortList)
+  }
+  else{return}
+}
+
+
+console.log(document.querySelector('#tasks'))
